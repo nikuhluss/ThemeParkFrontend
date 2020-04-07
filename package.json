@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "dayjs": "^1.8.23",
     "sirv-cli": "^0.4.4",
     "svelte-spa-router": "^2.1.0"
   }

@@ -1,36 +1,17 @@
 <script>
-
-    import { createEventDispatcher } from 'svelte';
-
-    let dispatch = createEventDispatcher();
+    import Submit from './Submit.svelte';
 
     export let name = '';
-    export let description = '';
     export let minAge = 0;
     export let minHeight = 0;
-
-    const handleSubmit = () => {
-        dispatch('submit', {name, description, minAge, minHeight});
-    };
-
-    const handleCancel = () => {
-        dispatch('cancel');
-    };
-
+    export let description = '';
 </script>
 
-<form class="form" on:submit={handleSubmit}>
+<form class="form">
     <div class="field">
         <label class="label">Name</label>
         <div class="control">
             <input class="input" type="text" placeholder="Name" bind:value={name} />
-        </div>
-    </div>
-
-    <div class="field">
-        <label class="label">Description</label>
-        <div class="control">
-            <textarea class="textarea" type="text" placeholder="Description" bind:value={description} />
         </div>
     </div>
 
@@ -48,14 +29,12 @@
         </div>
     </div>
 
-
-    <div class="field is-grouped">
+    <div class="field">
+        <label class="label">Description</label>
         <div class="control">
-            <button class="button is-light" on:click={handleCancel}>Cancel</button>
-        </div>
-        <div class="control">
-            <button type="submit" class="button is-primary">Submit</button>
+            <textarea class="textarea" type="text" placeholder="Description" bind:value={description} />
         </div>
     </div>
 
+    <Submit payload={{name, minAge, minHeight, description}} on:submit on:cancel />
 </form>

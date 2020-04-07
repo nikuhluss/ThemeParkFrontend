@@ -5,6 +5,7 @@
     import Events from './routes/Events.svelte';
     import Home from './routes/Home.svelte';
     import Maintenance from './routes/Maintenance.svelte';
+    import MaintenanceDetail from './routes/MaintenanceDetail.svelte';
     import Profile from './routes/Profile.svelte';
     import RideDetail from './routes/RideDetail.svelte';
     import Rides from './routes/Rides.svelte';
@@ -17,6 +18,7 @@
     '/': Home,
     '/rides/:rideId': RideDetail,
     '/rides': Rides,
+    '/maintenance/:maintenanceId': MaintenanceDetail,
     '/maintenance': Maintenance,
     '/events': Events,
 	'/profile': Profile,

@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
+    export let nobutton = false;
 </script>
 
 <div class="card">
@@ -16,7 +17,9 @@
         </div>
     </div>
 
-    <footer class="card-footer">
-        <a href='#something' class="card-footer-item" on:click>Details</a>
-    </footer>
+    {#if !nobutton}
+        <footer class="card-footer">
+            <a href='#something' class="card-footer-item" on:click>Details</a>
+        </footer>
+    {/if}
 </div>

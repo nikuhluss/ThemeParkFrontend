@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
+    import dayjs from 'dayjs';
 
     import Card from '../components/Card.svelte';
     import { key } from '../stores/auth.js';
@@ -16,10 +17,9 @@
         } else {
             visibleMaintenanceJobs = maintenanceJobs;
         }
-
     };
 
-    const fetchMaintenanceJobs = async () => {
+    onMount(async () => {
         const axios = makeAxiosWithKey($key);
         try {
             const response = await axios.get('/maintenance');
@@ -27,9 +27,7 @@
         } catch (err) {
             console.error(err);
         }
-    };
-
-    onMount(fetchMaintenanceJobs);
+    });
 
     const handleClick = (e, rideId) => {
         e.preventDefault();
@@ -70,9 +68,9 @@
                         <br />
                         <strong>Cost: </strong><span>${maintenance.cost}</span>
                         <br />
-                        <strong>Start date: </strong><time datetime={maintenance}>{maintenance.start}</time>
+                        <strong>Start date: </strong><time datetime={maintenance.start}>{dayjs(maintenance.start).format('MM/DD/YYYY h:mm A')}</time>
                         <br />
-                        <strong>End date: </strong><time datetime={maintenance}>{maintenance.end}</time>
+                        <strong>End date: </strong><time datetime={maintenance.end}>{dayjs(maintenance.end).format('MM/DD/YYYY h:mm A')}</time>
                     </div>
                 </Card>
             </div>

@@ -1,8 +1,5 @@
 <script>
-
-    import { createEventDispatcher } from 'svelte';
-
-    let dispatch = createEventDispatcher();
+    import Submit from './Submit.svelte';
 
     let availableGenders = [
         {id: 'Female', value: 'Female'},
@@ -16,18 +13,9 @@
     // export let dateOfBirth = null;
     export let address = null;
     export let phone = null;
-
-    const handleSubmit = () => {
-        dispatch('submit', {firstName, lastName, gender, address, phone});
-    };
-
-    const handleCancel = () => {
-        dispatch('cancel');
-    };
-
 </script>
 
-<form class="form" on:submit={handleSubmit}>
+<form class="form">
     <div class="field">
         <label class="label">First name</label>
         <div class="control">
@@ -69,14 +57,5 @@
         </div>
     </div>
 
-
-    <div class="field is-grouped">
-        <div class="control">
-            <button class="button is-light" on:click={handleCancel}>Cancel</button>
-        </div>
-        <div class="control">
-            <button type="submit" class="button is-primary">Submit</button>
-        </div>
-    </div>
-
+    <Submit payload={{firstName, lastName, gender, address, phone}} on:submit on:cancel />
 </form>

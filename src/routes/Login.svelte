@@ -35,27 +35,35 @@
     };
 </script>
 
-<div class="container">
-    <h1 class="title">Login</h1>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Login</h1>
 
-    <div class="field">
-        <div class="control">
-            <input class="input" type="email" placeholder="user@email.com" bind:value={email} />
+        <div class="field">
+            <div class="control">
+                <input class="input" type="email" placeholder="user@email.com" bind:value={email} />
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="password" placeholder="Passowrd" bind:value={password} />
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" on:click={handleSubmit}>Submit</button>
+            </div>
+            <div class="control">
+                <button class="button is-link is-light" on:click={handleCancel}>Cancel</button>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="field">
-        <div class="control">
-            <input class="input" type="password" placeholder="Passowrd" bind:value={password} />
-        </div>
-    </div>
-
-    <div class="field is-grouped">
-        <div class="control">
-            <button class="button is-link" on:click={handleSubmit}>Submit</button>
-        </div>
-        <div class="control">
-            <button class="button is-link is-light" on:click={handleCancel}>Cancel</button>
-        </div>
-    </div>
-</div>
+<style>
+    .container {
+        max-width: 480px;
+    }
+</style>

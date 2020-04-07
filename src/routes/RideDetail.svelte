@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { push } from 'svelte-spa-router';
     import { key } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
@@ -64,10 +65,26 @@
         const axios = makeAxiosWithKey($key);
         try {
             const response = await axios.post('/maintenance', newMaintenance);
-            creatingMaintenance = false;
+            push(`/dashboard/maintenance/${response.data.id}`);
         } catch (err) {
 
         }
+    };
+
+    // review creation handlers
+
+    let creatingReview = false;
+
+    const handleCreateReview = () => {
+        creatingReview = true;
+    };
+
+    const handleCreateReviewCancel = () => {
+        creatingReview = false;
+    };
+
+    const handleCreateReviewSubmit = async (event) => {
+        const reviewInfo = event.detail;
     };
 
 </script>
@@ -94,13 +111,13 @@
 
     <h1 class="title">{ride.name}</h1>
     <p class="subtitle">
-        {ride.description}
-        <br />
         <span class="tag">Age: {ride.minAge}+ yo</span>
         <span class="tag">Height: {ride.minHeight}+ cm</span>
-        <br />
-        <button class="button is-small" on:click={handleEdit}>Edit</button>
     </p>
+
+    <div class="content">
+        <p>{ride.description}</p>
+    </div>
 
     <div class="columns is-multiline">
         <div class="column is-one-third">
@@ -109,9 +126,9 @@
         </div>
 
         <div class="column is-two-thirds">
-            <h2 class="title">Maintenance</h2>
-            <p class="subtitle">Recent maintenance jobs</p>
-            <button class="button is-small" on:click={handleCreateMaintenance}>Create</button>
+            <h2 class="title">Actions</h2>
+            <button class="button is-small" on:click={handleEdit}>Edit ride</button>
+            <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
         </div>
     </div>
 {/if}

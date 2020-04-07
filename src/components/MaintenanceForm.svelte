@@ -1,8 +1,5 @@
 <script>
-
-    import { createEventDispatcher } from 'svelte';
-
-    let dispatch = createEventDispatcher();
+    import Submit from './Submit.svelte';
 
     let availableMaintenanceTypes = [
         {id: "Tune Up", value: "Tune Up"},
@@ -13,18 +10,9 @@
     export let maintenanceType = 'Tune Up';
     export let description = '';
     export let cost = 0;
-
-    const handleSubmit = () => {
-        dispatch('submit', {maintenanceType, description, cost});
-    };
-
-    const handleCancel = () => {
-        dispatch('cancel');
-    };
-
 </script>
 
-<form class="form" on:submit={handleSubmit}>
+<form class="form">
 
     <div class="field">
         <label class="label">Maintenance Type</label>
@@ -53,12 +41,5 @@
         </div>
     </div>
 
-    <div class="field is-grouped">
-        <div class="control">
-            <button class="button is-light" on:click={handleCancel}>Cancel</button>
-        </div>
-        <div class="control">
-            <button type="submit" class="button is-primary">Submit</button>
-        </div>
-    </div>
+    <Submit payload={{maintenanceType, description, cost}} on:submit on:cancel />
 </form>
