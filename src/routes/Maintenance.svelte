@@ -53,19 +53,29 @@
 
 <div class="columns is-multiline">
 
-    {#each visibleMaintenanceJobs as maintenance}
-        <div class="column is-half">
-            <Card on:click={e => handleClick(e, maintenance.id)}>
-                <span slot="title">
-                    {maintenance.rideName}
-                </span>
-                <div slot="content">
-                    <p>{maintenance.description}</p>
-                    <strong>Start date: </strong><time datetime={maintenance}>{maintenance.start}</time>
-                    <br />
-                    <strong>End date: </strong><time datetime={maintenance}>{maintenance.end}</time>
-                </div>
-            </Card>
+    {#if visibleMaintenanceJobs.length <= 0}
+        <div class="column is-full">
+            <p>No pending maintenance jobs ;)</p>
         </div>
-    {/each}
+    {:else}
+        {#each visibleMaintenanceJobs as maintenance}
+            <div class="column is-half">
+                <Card on:click={e => handleClick(e, maintenance.id)}>
+                    <span slot="title">
+                        {maintenance.rideName}
+                    </span>
+                    <div slot="content">
+                        <p>{maintenance.description}</p>
+                        <strong>Type: </strong><span>{maintenance.maintenanceType}</span>
+                        <br />
+                        <strong>Cost: </strong><span>${maintenance.cost}</span>
+                        <br />
+                        <strong>Start date: </strong><time datetime={maintenance}>{maintenance.start}</time>
+                        <br />
+                        <strong>End date: </strong><time datetime={maintenance}>{maintenance.end}</time>
+                    </div>
+                </Card>
+            </div>
+        {/each}
+    {/if}
 </div>
