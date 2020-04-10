@@ -7,6 +7,7 @@
     import Maintenance from './routes/Maintenance.svelte';
     import MaintenanceDetail from './routes/MaintenanceDetail.svelte';
     import Profile from './routes/Profile.svelte';
+	import Reports from './routes/Reports.svelte';
     import RideDetail from './routes/RideDetail.svelte';
     import Rides from './routes/Rides.svelte';
 
@@ -15,17 +16,17 @@
     const prefix = '/dashboard';
 
     const routes = {
-    '/': Home,
-    '/rides/:rideId': RideDetail,
-    '/rides': Rides,
-    '/maintenance/:maintenanceId': MaintenanceDetail,
-    '/maintenance': Maintenance,
-    '/events': Events,
-	'/profile': Profile,
+		'/': Reports,
+		'/rides/:rideId': RideDetail,
+		'/rides': Rides,
+		'/maintenance/:maintenanceId': MaintenanceDetail,
+		'/maintenance': Maintenance,
+		'/events': Events,
+		'/profile': Profile,
     };
 
 	let pageItems = [
-		{route: '/dashboard', value: 'Home'},
+		{route: '/dashboard', value: 'Reports'},
 		{route: '/dashboard/rides', value: 'Rides'},
 		{route: '/dashboard/maintenance', value: 'Maintenance'},
 		{route: '/dashboard/events', value: 'Events'},
@@ -72,7 +73,6 @@
 				{/each}
 			</ul>
 		</aside>
-
 
 		{#if $user}
 		<div class="user">
