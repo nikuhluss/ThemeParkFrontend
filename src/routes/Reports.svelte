@@ -31,6 +31,7 @@
         {
             name: "Ride maintenance cases per-month",
             report: "ride_maintenance_monthly",
+            hasSinceFilter: true,
             columns: [
                 { headerName: "Year", field: "year" },
                 // { headerName: "Month", field: "month" },
@@ -43,7 +44,8 @@
         },
         {
             name: "Most frequently ridden rides per-month",
-            report: "frequently_ridden_rides",
+            report: "frequently_ridden_rides_monthly",
+            hasSinceFilter: true,
             columns: [
                 { headerName: "Year", field: "year" },
                 // { headerName: "Month", field: "month" },
@@ -55,7 +57,8 @@
         },
         {
             name: "Rainout per-month",
-            report: "rainouts",
+            report: "rainouts_monthly",
+            hasSinceFilter: true,
             columns: [
                 { headerName: "Year", field: "year" },
                 // { headerName: "Month", field: "month" },
@@ -69,8 +72,9 @@
 
     let currentReport = availableReports[0];
     let currentReportData = [];
+    let since = '';
 
-    const fetchReportData = async (report) => {
+    const fetchReportData = async (report, since) => {
 
         if (!report) {
             return;
@@ -78,15 +82,20 @@
 
         const axios = makeAxiosWithKey($key, 'http://localhost:5050');
 
+        let url = `/_QUERIES/reports/${report.report}`;
+        if (report.hasSinceFilter && since) {
+            url = `${url}?since=${since}`;
+        }
+
         try {
-            const response = await axios.get(`/_QUERIES/reports/${report.report}`);
+            const response = await axios.get(url);
             currentReportData = response.data;
         } catch (err) {
             console.error(err);
         }
     };
 
-    $: fetchReportData(currentReport);
+    $: fetchReportData(currentReport, since);
 
 </script>
 
@@ -103,6 +112,21 @@
             </select>
         </div>
     </div>
+
+    {#if currentReport && currentReport.hasSinceFilter }
+    <div class="level-right">
+        <div class="level-item">
+            <div class="field has-addons">
+                <div class="control">
+                    <span class="button is-static is-small">Since</span>
+                </div>
+                <div class="control">
+                    <input class="input is-small" type="date" bind:value={since} />
+                </div>
+            </div>
+        </div>
+    </div>
+    {/if}
 </div>
 
 {#if !currentReport}
