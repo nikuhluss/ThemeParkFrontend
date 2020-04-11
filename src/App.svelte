@@ -40,5 +40,10 @@
 
 </script>
 
-
 <Router routes={routes} on:conditionsFailed={conditionsFailed} />
+
+<style>
+	:global(html) {
+		overflow: hidden;
+	}
+</style>
