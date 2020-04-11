@@ -13,8 +13,8 @@
             columns: [
                 { headerName: "Ride identifier", field: "ride_id" },
                 { headerName: "Ride name", field: "ride_name" },
-                { headerName: "Total reviews", field: "review_count" },
-                { headerName: "Average", field: "review_avg" },
+                { headerName: "Total reviews", field: "review_count", sortable: true },
+                { headerName: "Average", field: "review_avg", sortable: true },
             ]
         },
         {
@@ -25,7 +25,7 @@
                 { headerName: "Email", field: "user_email" },
                 { headerName: "First name", field: "user_first_name" },
                 { headerName: "Last name", field: "user_last_name" },
-                { headerName: "Scan count", field: "scan_count" },
+                { headerName: "Scan count", field: "scan_count", sortable: true },
             ]
         },
         {
@@ -33,13 +33,13 @@
             report: "ride_maintenance_monthly",
             hasSinceFilter: true,
             columns: [
-                { headerName: "Year", field: "year" },
+                { headerName: "Year", field: "year", sortable: true },
                 // { headerName: "Month", field: "month" },
                 { headerName: "Month name", field: "month_name" },
                 { headerName: "Ride identifier", field: "ride_id" },
                 { headerName: "Ride name", field: "ride_name" },
-                { headerName: "Started maintenance", field: "maintenance_start_total" },
-                { headerName: "Closed maintenance", field: "maintenance_end_total" },
+                { headerName: "Started maintenance", field: "maintenance_start_total", sortable: true },
+                { headerName: "Closed maintenance", field: "maintenance_end_total", sortable: true },
             ]
         },
         {
@@ -47,12 +47,12 @@
             report: "frequently_ridden_rides_monthly",
             hasSinceFilter: true,
             columns: [
-                { headerName: "Year", field: "year" },
+                { headerName: "Year", field: "year", sortable: true },
                 // { headerName: "Month", field: "month" },
                 { headerName: "Month name", field: "month_name" },
                 { headerName: "Ride identifier", field: "ride_id" },
                 { headerName: "Ride name", field: "ride_name" },
-                { headerName: "Times ridden", field: "times_ridden" },
+                { headerName: "Times ridden", field: "times_ridden", sortable: true },
             ]
         },
         {
@@ -63,7 +63,7 @@
                 { headerName: "Year", field: "year" },
                 // { headerName: "Month", field: "month" },
                 { headerName: "Month name", field: "month_name" },
-                { headerName: "Total rainout", field: "total_rainout" },
+                { headerName: "Total rainout", field: "total_rainout", sortable: true },
             ]
         }
     ];
