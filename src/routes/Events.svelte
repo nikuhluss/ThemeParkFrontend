@@ -6,7 +6,7 @@
     import Modal from '../components/Modal.svelte';
     import Card from '../components/Card.svelte';
     import AddEvent from '../components/EventForm.svelte';
-    import { key, user } from '../stores/auth.js';
+    import { key } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
     let events = [];
