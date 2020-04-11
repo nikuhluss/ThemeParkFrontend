@@ -5,15 +5,26 @@
         {id: "Rainout", value: "Rainout"},
     ];
 
+    export let eventType = 'Rainout';
     export let title = null;
     export let description = null;
-    export let eventType = 'Rainout';
 
 </script>
 
-
-
 <form class="form">
+    <div class="field">
+        <label class="label">Event type</label>
+        <div class="control">
+            <div class="select">
+                <select bind:value={eventType}>
+                    {#each availableEventTypes as eventType}
+                        <option value={eventType.id}>{eventType.value}</option>
+                    {/each}
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="field">
         <label class="label">Title</label>
         <div class="control">
@@ -28,18 +39,5 @@
         </div>
     </div>
 
-    <div class="field">
-        <label class="label">Event Type</label>
-        <div class="control">
-            <div class="select">
-                <select bind:value={eventType}>
-                    {#each availableEventTypes as eventType}
-                        <option value={eventType.id}>{eventType.value}</option>
-                    {/each}
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <Submit payload={{title, description, eventType}} on:submit on:cancel />
+    <Submit payload={{eventType, title, description}} on:submit on:cancel />
 </form>

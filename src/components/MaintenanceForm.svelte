@@ -15,7 +15,7 @@
 <form class="form">
 
     <div class="field">
-        <label class="label">Maintenance Type</label>
+        <label class="label">Maintenance type</label>
         <div class="control">
             <div class="select">
                 <select bind:value={maintenanceType}>

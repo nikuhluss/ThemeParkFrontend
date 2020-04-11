@@ -10,7 +10,7 @@
     import { makeAxiosWithKey } from '../axios.js';
 
     let events = [];
-    let adding = false;
+    let addingEvent = false;
 
     onMount(async () => {
         const axios = makeAxiosWithKey($key);
@@ -23,7 +23,7 @@
     });
 
     const handleNewEvent = () => {
-        adding = true;
+        addingEvent = true;
     };
 
     const handleNewEventSubmit = async (event) => {
@@ -32,31 +32,33 @@
         try {
             const response = await axios.post(`/events`, eventInfo);
             events = [response.data, ...events];
-            adding = false;
+            addingEvent = false;
         } catch (err) {
         }
     };
-    
-    
+
+
 
     const handleNewEventCancel = () => {
-        adding = false;
+        addingEvent = false;
     };
 
 </script>
 
 <h1 class="title">Events</h1>
 <p class="subtitle">Check most recent events</p>
-{#if adding}
+
+{#if addingEvent}
     <Modal on:close={handleNewEventCancel}>
         <div class="box">
             <AddEvent on:submit={handleNewEventSubmit} on:cancel={handleNewEventCancel}/>
         </div>
     </Modal>
 {/if}
+
 <div class="columns is-multiline">
     <div class="column">
-        <button class="button is-primary" on:click={handleNewEvent}>Create New Event</button>
+        <button class="button is-primary" on:click={handleNewEvent}>Create new event</button>
     </div>
     {#if events.length <= 0}
         <div class="column is-full">
@@ -75,7 +77,7 @@
                         <br />
                         <strong>Posted on: </strong><time datetime={event.postedOn}>{dayjs(event.postedOn).format('MM/DD/YYYY h:mm A')}</time>
                     </div>
-                    
+
                 </Card>
             </div>
         {/each}

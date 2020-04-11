@@ -16,14 +16,14 @@
     </div>
 
     <div class="field">
-        <label class="label">Minimum Age</label>
+        <label class="label">Minimum age</label>
         <div class="control">
             <input class="input" type="number" placeholder="Name" min=0 max=200 bind:value={minAge} />
         </div>
     </div>
 
     <div class="field">
-        <label class="label">Minimum Height</label>
+        <label class="label">Minimum height</label>
         <div class="control">
             <input class="input" type="number" placeholder="Name" min=0 max=400 bind:value={minHeight} />
         </div>
