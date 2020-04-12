@@ -4,6 +4,14 @@
     import { makeAxiosWithKey } from '../axios.js';
     import AgGrid from '../components/AgGrid.svelte';
 
+    let CSV;
+    let agComponent;
+    onMount(async () => {
+        CSV = function(){
+            agComponent.exportCSV();
+        }
+    });
+
     // list of available reports
 
     let availableReports = [
@@ -97,6 +105,8 @@
 
     $: fetchReportData(currentReport, since);
 
+    
+
 </script>
 
 <h1 class="title">Reports</h1>
@@ -110,6 +120,10 @@
                     <option value={report}>{report.name}</option>
                 {/each}
             </select>
+        </div>
+        <div class="level-item">
+            <button class="button" on:click={CSV}>Export to .CSV</button>
+            
         </div>
     </div>
 
@@ -132,7 +146,7 @@
 {#if !currentReport}
     <p>No report has been selected.</p>
 {:else}
-    <AgGrid columns={currentReport.columns} data={currentReportData} />
+    <AgGrid columns={currentReport.columns} data={currentReportData} bind:this={agComponent}/>
 {/if}
 
 <style>
