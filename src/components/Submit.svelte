@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte';
 
     export let payload = {};
+    export let disabled = false;
 
     const dispatch = createEventDispatcher();
     const handleSubmit = () => { dispatch('submit', payload); };
@@ -11,7 +12,7 @@
 <div class="field is-grouped">
 
     <div class="control">
-        <button type="submit" class="button is-primary" on:click={handleSubmit}>Submit</button>
+        <button type="submit" class="button is-primary" on:click={handleSubmit} disabled={disabled}>Submit</button>
     </div>
 
     <div class="control">

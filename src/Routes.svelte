@@ -11,6 +11,7 @@
 	import Reports from './routes/Reports.svelte';
 	import RideDetail from './routes/RideDetail.svelte';
 	import Rides from './routes/Rides.svelte';
+	import ScanSim from './routes/ScanSim.svelte';
 
 	import { key, user } from './stores/auth.js';
 
@@ -23,6 +24,7 @@
 		'/maintenance/:maintenanceId': MaintenanceDetail,
 		'/maintenance': Maintenance,
 		'/events': Events,
+		'/scansim': ScanSim,
 		'/profile': Profile,
 		'/*': NotFound,
 	};
@@ -35,6 +37,7 @@
 	];
 
 	let otherItems = [
+		{route: '/dashboard/scansim', value: 'Scan simulation'},
 		{route: '/dashboard/profile', value: 'Profile'},
 	];
 
