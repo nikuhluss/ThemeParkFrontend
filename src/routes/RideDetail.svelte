@@ -1,22 +1,33 @@
 <script>
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
-    import { key } from '../stores/auth.js';
+    import { key, userId } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
     import Modal from '../components/Modal.svelte';
+    import Card from '../components/Card.svelte';
     import RideForm from '../components/RideForm.svelte';
     import MaintenanceForm from '../components/MaintenanceForm.svelte';
-
+    import ReviewForm from '../components/ReviewForm.svelte';
     export let params;
 
     let ride = null;
+    let reviews = [];
 
     onMount(async () => {
         const axios = makeAxiosWithKey($key);
         try {
             const response = await axios.get(`/rides/${params.rideId}`);
             ride = response.data;
+        } catch (err) {
+
+        }
+
+        const axios2 = makeAxiosWithKey($key);
+        try {
+            const response2 = await axios2.get(`/rides/${params.rideId}/reviews`);
+            reviews = response2.data;
+            console.log(reviews);
         } catch (err) {
 
         }
@@ -84,8 +95,19 @@
     };
 
     const handleCreateReviewSubmit = async (event) => {
-        const reviewInfo = event.detail;
+        const newReview = event.detail;
+        newReview.rideId = ride.id;
+        newReview.userId = $userId;
+        const axios = makeAxiosWithKey($key);
+        try {
+            const response = await axios.post('/reviews', newReview);
+            reviews = [newReview, ...reviews];
+            creatingReview = false;
+        } catch (err) {
+
+        }
     };
+
 
 </script>
 
@@ -109,6 +131,14 @@
         </Modal>
     {/if}
 
+    {#if creatingReview}
+        <Modal title="Write New review" on:close={handleCreateReviewCancel}>
+            <div class="box">
+                <ReviewForm on:submit={handleCreateReviewSubmit} on:cancel={handleCreateReviewCancel}/>
+            </div>
+        </Modal>
+    {/if}
+
     <h1 class="title">{ride.name}</h1>
     <p class="subtitle">
         <span class="tag">Age: {ride.minAge}+ yo</span>
@@ -123,12 +153,27 @@
         <div class="column is-one-third">
             <h2 class="title">Reviews</h2>
             <p class="subtitle"><strong>Average rating:</strong> {ride.reviewsAverage}</p>
+            {#each reviews as review}
+                <div class="column">
+                    <Card nobutton>
+                        <span slot="title">
+                        {review.title}
+                        <br>
+                            Rating: {review.rating}
+                        </span>
+                        <p slot="content">
+                            {review.content}
+                        </p>
+                    </Card>
+                </div>
+            {/each}
         </div>
 
         <div class="column is-two-thirds">
             <h2 class="title">Actions</h2>
             <button class="button is-small" on:click={handleEdit}>Edit ride</button>
             <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
+            <button class="button is-small" on:click={handleCreateReview}>Write New Review</button>
         </div>
     </div>
 {/if}
