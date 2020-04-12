@@ -24,9 +24,8 @@
 
     onDestroy(() => {
         if (gridOptions && gridOptions.api) {
-            return;
+            gridOptions.api.destroy();
         }
-        gridOptions.api.destroy();
     });
 
     $: if (columns && gridOptions && gridOptions.api) {
@@ -39,8 +38,8 @@
         gridOptions.api.sizeColumnsToFit();
     }
 
-    export const exportCSV = () => {
-        gridOptions.api.exportDataAsCsv();
+    export const exportCSV = (fileName = null) => {
+        gridOptions.api.exportDataAsCsv({ fileName });
     }
 
 </script>

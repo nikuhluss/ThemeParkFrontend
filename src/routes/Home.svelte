@@ -1,1 +1,8 @@
-<h1>Home</h1>
+<script>
+    import { onMount } from 'svelte';
+    import { replace } from 'svelte-spa-router';
+
+    onMount(() => {
+        replace('/dashboard');
+    });
+</script>

@@ -1,10 +1,11 @@
 <script>
 	import Router, { wrap, push } from 'svelte-spa-router';
-	import Login from './routes/Login.svelte';
 	import { key } from './stores/auth.js';
 
-	import Routes from './Routes.svelte';
+	import Home from './routes/Home.svelte';
 	import NotFound from './routes/NotFound.svelte';
+	import Login from './routes/Login.svelte';
+	import Routes from './Routes.svelte';
 
 	// pre-conditions
 
@@ -24,10 +25,11 @@
 	// routes
 
 	const routes = {
-	'/login': Login,
-	'/dashboard': wrap(Routes, ...preconditions),
-	'/dashboard/*': wrap(Routes, ...preconditions),
-	'*': NotFound,
+		'/': Home,
+		'/login': Login,
+		'/dashboard': wrap(Routes, ...preconditions),
+		'/dashboard/*': wrap(Routes, ...preconditions),
+		'*': NotFound,
 	};
 
 	// events

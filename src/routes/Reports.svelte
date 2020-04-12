@@ -4,13 +4,7 @@
     import { makeAxiosWithKey } from '../axios.js';
     import AgGrid from '../components/AgGrid.svelte';
 
-    let CSV;
     let agComponent;
-    onMount(async () => {
-        CSV = function(){
-            agComponent.exportCSV();
-        }
-    });
 
     // list of available reports
 
@@ -83,7 +77,6 @@
     let since = '';
 
     const fetchReportData = async (report, since) => {
-
         if (!report) {
             return;
         }
@@ -105,7 +98,12 @@
 
     $: fetchReportData(currentReport, since);
 
-    
+    // csv export
+
+    const handleCSVExport = () => {
+        if (!agComponent) { return; }
+        agComponent.exportCSV(`${currentReport.report}.csv`);
+    };
 
 </script>
 
@@ -121,14 +119,8 @@
                 {/each}
             </select>
         </div>
-        <div class="level-item">
-            <button class="button" on:click={CSV}>Export to .CSV</button>
-            
-        </div>
-    </div>
 
-    {#if currentReport && currentReport.hasSinceFilter }
-    <div class="level-right">
+        {#if currentReport && currentReport.hasSinceFilter }
         <div class="level-item">
             <div class="field has-addons">
                 <div class="control">
@@ -139,8 +131,16 @@
                 </div>
             </div>
         </div>
+        {/if}
     </div>
-    {/if}
+
+    <div class="level-right">
+        <div class="level-item">
+            <div class="control">
+                <button class="button is-link is-small" on:click={handleCSVExport}>Export to .CSV</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 {#if !currentReport}

@@ -2,20 +2,21 @@
 	import Router, { link, push } from 'svelte-spa-router';
 	import active from 'svelte-spa-router/active';
 
-    import Events from './routes/Events.svelte';
-    import Home from './routes/Home.svelte';
-    import Maintenance from './routes/Maintenance.svelte';
-    import MaintenanceDetail from './routes/MaintenanceDetail.svelte';
-    import Profile from './routes/Profile.svelte';
+	import Events from './routes/Events.svelte';
+	import Home from './routes/Home.svelte';
+	import Maintenance from './routes/Maintenance.svelte';
+	import MaintenanceDetail from './routes/MaintenanceDetail.svelte';
+	import NotFound from './routes/NotFound.svelte';
+	import Profile from './routes/Profile.svelte';
 	import Reports from './routes/Reports.svelte';
-    import RideDetail from './routes/RideDetail.svelte';
-    import Rides from './routes/Rides.svelte';
+	import RideDetail from './routes/RideDetail.svelte';
+	import Rides from './routes/Rides.svelte';
 
 	import { key, user } from './stores/auth.js';
 
-    const prefix = '/dashboard';
+	const prefix = '/dashboard';
 
-    const routes = {
+	const routes = {
 		'/': Reports,
 		'/rides/:rideId': RideDetail,
 		'/rides': Rides,
@@ -23,7 +24,8 @@
 		'/maintenance': Maintenance,
 		'/events': Events,
 		'/profile': Profile,
-    };
+		'/*': NotFound,
+	};
 
 	let pageItems = [
 		{route: '/dashboard', value: 'Reports'},
