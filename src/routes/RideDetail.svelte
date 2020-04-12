@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
-    import { key } from '../stores/auth.js';
+    import { key, userId } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
     import Modal from '../components/Modal.svelte';
@@ -96,8 +96,8 @@
 
     const handleCreateReviewSubmit = async (event) => {
         const newReview = event.detail;
-        console.log(newReview);
-        debugger;
+        newReview.rideId = ride.id;
+        newReview.userId = $userId;
         const axios = makeAxiosWithKey($key);
         try {
             const response = await axios.post('/reviews', newReview);
