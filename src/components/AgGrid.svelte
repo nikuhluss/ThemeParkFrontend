@@ -39,6 +39,10 @@
         gridOptions.api.sizeColumnsToFit();
     }
 
+    export const exportCSV = () => {
+        gridOptions.api.exportDataAsCsv();
+    }
+
 </script>
 
 <div bind:this={container} class="ag-theme-balham" />
