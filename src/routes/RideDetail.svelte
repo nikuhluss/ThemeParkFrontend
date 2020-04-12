@@ -3,6 +3,7 @@
     import { push } from 'svelte-spa-router';
     import { key, userId } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
+    import dayjs from 'dayjs';
 
     import Modal from '../components/Modal.svelte';
     import Card from '../components/Card.svelte';
@@ -22,12 +23,13 @@
         } catch (err) {
 
         }
+    });
 
-        const axios2 = makeAxiosWithKey($key);
+    onMount(async () => {
+        const axios = makeAxiosWithKey($key);
         try {
-            const response2 = await axios2.get(`/rides/${params.rideId}/reviews`);
-            reviews = response2.data;
-            console.log(reviews);
+            const response  = await axios.get(`/rides/${params.rideId}/reviews`);
+            reviews = response.data;
         } catch (err) {
 
         }
@@ -96,7 +98,7 @@
 
     const handleCreateReviewSubmit = async (event) => {
         const newReview = event.detail;
-        newReview.rideId = ride.id;
+        newReview.rideId = params.rideId;
         newReview.userId = $userId;
         const axios = makeAxiosWithKey($key);
         try {
@@ -123,18 +125,18 @@
         </Modal>
     {/if}
 
-    {#if creatingMaintenance}
-        <Modal title="Create new maintenance job" on:close={handleCreateMaintenanceCancel}>
+    {#if creatingReview}
+        <Modal title="Write new review" on:close={handleCreateReviewCancel}>
             <div class="box">
-                <MaintenanceForm  on:submit={handleCreateMaintenanceSubmit} on:cancel={handleCreateMaintenanceCancel} />
+                <ReviewForm on:submit={handleCreateReviewSubmit} on:cancel={handleCreateReviewCancel}/>
             </div>
         </Modal>
     {/if}
 
-    {#if creatingReview}
-        <Modal title="Write New review" on:close={handleCreateReviewCancel}>
+    {#if creatingMaintenance}
+        <Modal title="Create new maintenance job" on:close={handleCreateMaintenanceCancel}>
             <div class="box">
-                <ReviewForm on:submit={handleCreateReviewSubmit} on:cancel={handleCreateReviewCancel}/>
+                <MaintenanceForm  on:submit={handleCreateMaintenanceSubmit} on:cancel={handleCreateMaintenanceCancel} />
             </div>
         </Modal>
     {/if}
@@ -153,27 +155,30 @@
         <div class="column is-one-third">
             <h2 class="title">Reviews</h2>
             <p class="subtitle"><strong>Average rating:</strong> {ride.reviewsAverage}</p>
-            {#each reviews as review}
-                <div class="column">
-                    <Card nobutton>
-                        <span slot="title">
-                        {review.title}
-                        <br>
-                            Rating: {review.rating}
-                        </span>
-                        <p slot="content">
-                            {review.content}
-                        </p>
-                    </Card>
-                </div>
-            {/each}
+            <div class="columns is-multiline">
+                {#each reviews as review}
+                    <div class="column is-full">
+                        <Card nobutton>
+                            <span slot="title">{review.title}</span>
+                            <div slot="content">
+                                <p>
+                                    <strong>Rating: </strong><span>{review.rating}</span>
+                                    <br />
+                                    <strong>Posted on: </strong><time datetime={review.postedOn}>{dayjs(review.postedOn).format('MM/DD/YYYY h:mm A')}</time>
+                                </p>
+                                <p>{review.content}</p>
+                            </div>
+                        </Card>
+                    </div>
+                {/each}
+            </div>
         </div>
 
         <div class="column is-two-thirds">
             <h2 class="title">Actions</h2>
             <button class="button is-small" on:click={handleEdit}>Edit ride</button>
+            <button class="button is-small" on:click={handleCreateReview}>Write new review</button>
             <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
-            <button class="button is-small" on:click={handleCreateReview}>Write New Review</button>
         </div>
     </div>
 {/if}

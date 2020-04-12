@@ -3,7 +3,7 @@
     import { key, userId, user } from '../stores/auth.js';
     import { makeAxios, makeAxiosWithKey } from '../axios.js';
 
-    let email = "employee0@email.com";
+    let email = "customer0@email.com";
     let password = "password";
 
     let axios = makeAxios();
