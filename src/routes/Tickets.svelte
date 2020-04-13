@@ -15,7 +15,7 @@
 
     $: {
         if (todayTicket) {
-            visibleTickets = tickets.filter(m => dayjs(m.purchasedOn).format('MM/DD/YYYY') == dayjs(Date()).format('MM/DD/YYYY'));
+            visibleTickets = tickets.filter(t => t.isValid);
         } else {
             visibleTickets = tickets;
         }
@@ -119,15 +119,18 @@
                         {ticket.id}
                     </span>
                     <div slot="content">
-                        {#if dayjs(ticket.purchasedOn).format('MM/DD/YYYY') == dayjs(Date()).format('MM/DD/YYYY')}
-                            <strong><span class="has-text-success">Valid</span></strong>
-                        {:else}
-                            <strong><span class="has-text-danger">Invalid</span></strong>
-                        {/if}
-                        <br />
-                        <strong>Cost: </strong><span>${ticket.purchasePrice}</span>
-                        <br />
-                        <strong>Purchased On: </strong><time datetime={ticket.purchasedOn}>{dayjs(ticket.purchasedOn).format('MM/DD/YYYY h:mm A')}</time>
+                        <p>
+                            {#if ticket.isValid}
+                                <span class="tag is-success">Valid</span>
+                            {:else}
+                                <span class="tag is-warning">Invalid</span>
+                            {/if}
+                        </p>
+                        <p>
+                            <strong>Cost: </strong><span>${ticket.purchasePrice}</span>
+                            <br />
+                            <strong>Purchased On: </strong><time datetime={ticket.purchasedOn}>{dayjs(ticket.purchasedOn).format('MM/DD/YYYY h:mm A')}</time>
+                        </p>
                     </div>
                 </Card>
             </div>
