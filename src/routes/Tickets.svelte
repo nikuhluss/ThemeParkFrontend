@@ -31,23 +31,26 @@
         }
     });
 
+    // ticket form
+
     let buyingTicket = false;
+
     const handleNewTicket = () => {
         buyingTicket = true;
     };
 
     const handleNewTicketSubmit = async (event) => {
-        let newTicketsSubmitted = [];
         const ticketInfo = event.detail;
-        const newTickets = getTicketJSON(ticketInfo);
+        const ticketsToSubmit = getTicketJSON(ticketInfo);
         const axios = makeAxiosWithKey($key);
 
-        await Promise.all(newTickets.map(newTicket =>
-            axios.post('/tickets', newTicket).then(response => {
-            tickets = [response.data, ...tickets];
-            newTicketsSubmitted.push(response);
-            })
-        ));
+        try {
+            const responses = await Promise.all(ticketsToSubmit.map(newTicket => axios.post('/tickets', newTicket)));
+            const data = responses.map(r => r.data);
+            tickets = [...data, ...tickets];
+        } catch (err) {
+        }
+
         buyingTicket = false;
     };
 
@@ -56,8 +59,9 @@
     };
 
     const getTicketJSON = (info) => {
-        var newTickets = [];
-        for(var i = 0;i < info.adultTickets;i++){
+        let newTickets = [];
+
+        for(let i = 0; i < info.adultTickets; i++) {
             newTickets.push({
                 isKid: false,
                 userId: $userId,
@@ -65,7 +69,8 @@
                 purchaseReference: "076347d-8047-4754-9dcb-f5961709b22d",
             });
         }
-        for(var i = 0;i < info.kidTickets;i++){
+
+        for(let i = 0; i < info.kidTickets; i++) {
             newTickets.push({
                 isKid: true,
                 userId: $userId,
@@ -73,13 +78,14 @@
                 purchaseReference: "076347d-8047-4754-9dcb-f5961709b22d",
             });
         }
+
         return newTickets;
     };
 
 </script>
 
 <h1 class="title">Tickets</h1>
-<p class="subtitle">Check Tickets</p>
+<p class="subtitle">Check tickets</p>
 
 {#if buyingTicket}
     <Modal on:close={handleNewTicketCancel}>
@@ -92,15 +98,13 @@
 <div class="level">
     <div class="level-left">
         <div class="level-item">
+            <button class="button is-primary" on:click={handleNewTicket}>Purchase Ticket(s)</button>
+        </div>
+        <div class="level-item">
             <label class="checkbox">
                 <input type="checkbox" bind:checked={todayTicket}>
-                Today's Tickets
+                Today's tickets
             </label>
-        </div>
-    </div>
-    <div class="level-left">
-        <div class="level-item">
-            <button class="button is-primary" on:click={handleNewTicket}>Purchase Ticket(s)</button>
         </div>
     </div>
 </div>
@@ -109,7 +113,7 @@
 
     {#if visibleTickets.length <= 0}
         <div class="column is-full">
-            <p>No Tickets for today :,(</p>
+            <p>No tickets for today :,(</p>
         </div>
     {:else}
         {#each visibleTickets as ticket}

@@ -56,10 +56,15 @@
     </Modal>
 {/if}
 
-<div class="columns is-multiline">
-    <div class="column">
-        <button class="button is-primary" on:click={handleNewEvent}>Create new event</button>
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <button class="button is-primary" on:click={handleNewEvent}>Create new event</button>
+        </div>
     </div>
+</div>
+
+<div class="columns is-multiline">
     {#if events.length <= 0}
         <div class="column is-full">
             <p>No events.</p>
