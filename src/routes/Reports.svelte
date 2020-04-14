@@ -33,7 +33,7 @@
         {
             name: "Ride maintenance cases per-month",
             report: "ride_maintenance_monthly",
-            hasSinceFilter: true,
+            hasDateRangeFilter: true,
             columns: [
                 { headerName: "Year", field: "year", sortable: true },
                 // { headerName: "Month", field: "month" },
@@ -47,7 +47,7 @@
         {
             name: "Most frequently ridden rides per-month",
             report: "frequently_ridden_rides_monthly",
-            hasSinceFilter: true,
+            hasDateRangeFilter: true,
             columns: [
                 { headerName: "Year", field: "year", sortable: true },
                 // { headerName: "Month", field: "month" },
@@ -60,7 +60,7 @@
         {
             name: "Rainout per-month",
             report: "rainouts_monthly",
-            hasSinceFilter: true,
+            hasDateRangeFilter: true,
             columns: [
                 { headerName: "Year", field: "year" },
                 // { headerName: "Month", field: "month" },
@@ -74,9 +74,10 @@
 
     let currentReport = availableReports[0];
     let currentReportData = [];
-    let since = '';
+    let start_filter = '';
+    let end_filter = '';
 
-    const fetchReportData = async (report, since) => {
+    const fetchReportData = async (report, start_filter, end_filter) => {
         if (!report) {
             return;
         }
@@ -84,19 +85,26 @@
         const axios = makeAxiosWithKey($key, 'http://localhost:5050');
 
         let url = `/_QUERIES/reports/${report.report}`;
-        if (report.hasSinceFilter && since) {
-            url = `${url}?since=${since}`;
+        let queryParams = [];
+
+        if (report.hasDateRangeFilter && start_filter) {
+            queryParams.push(`start=${start_filter}`);
         }
 
+        if (report.hasDateRangeFilter && end_filter) {
+            queryParams.push(`end=${end_filter}`);
+        }
+
+        const finalUrl = `${url}?${queryParams.join('&')}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(finalUrl);
             currentReportData = response.data;
         } catch (err) {
             console.error(err);
         }
     };
 
-    $: fetchReportData(currentReport, since);
+    $: fetchReportData(currentReport, start_filter, end_filter);
 
     // csv export
 
@@ -120,14 +128,25 @@
             </select>
         </div>
 
-        {#if currentReport && currentReport.hasSinceFilter }
+        {#if currentReport && currentReport.hasDateRangeFilter }
         <div class="level-item">
             <div class="field has-addons">
                 <div class="control">
-                    <span class="button is-static is-small">Since</span>
+                    <span class="button is-static is-small">Start</span>
                 </div>
                 <div class="control">
-                    <input class="input is-small" type="date" bind:value={since} />
+                    <input class="input is-small" type="date" bind:value={start_filter} />
+                </div>
+            </div>
+        </div>
+
+        <div class="level-item">
+            <div class="field has-addons">
+                <div class="control">
+                    <span class="button is-static is-small">End</span>
+                </div>
+                <div class="control">
+                    <input class="input is-small" type="date" bind:value={end_filter} />
                 </div>
             </div>
         </div>
