@@ -6,7 +6,7 @@
     import Modal from '../components/Modal.svelte';
     import Card from '../components/Card.svelte';
     import AddEvent from '../components/EventForm.svelte';
-    import { key } from '../stores/auth.js';
+    import { key, user } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
     let events = [];
@@ -56,13 +56,15 @@
     </Modal>
 {/if}
 
-<div class="level">
-    <div class="level-left">
-        <div class="level-item">
-            <button class="button is-primary" on:click={handleNewEvent}>Create new event</button>
+{#if $user.isEmployee}
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <button class="button is-primary" on:click={handleNewEvent}>Create new event</button>
+            </div>
         </div>
     </div>
-</div>
+{/if}
 
 <div class="columns is-multiline">
     {#if events.length <= 0}

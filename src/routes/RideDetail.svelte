@@ -1,9 +1,9 @@
 <script>
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
-    import { key, userId } from '../stores/auth.js';
-    import { makeAxiosWithKey } from '../axios.js';
     import dayjs from 'dayjs';
+    import { key, user, userId } from '../stores/auth.js';
+    import { makeAxiosWithKey } from '../axios.js';
 
     import Modal from '../components/Modal.svelte';
     import Card from '../components/Card.svelte';
@@ -176,9 +176,13 @@
 
         <div class="column is-two-thirds">
             <h2 class="title">Actions</h2>
-            <button class="button is-small" on:click={handleEdit}>Edit ride</button>
+            {#if $user.isEmployee}
+                <button class="button is-small" on:click={handleEdit}>Edit ride</button>
+            {/if}
             <button class="button is-small" on:click={handleCreateReview}>Write new review</button>
-            <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
+            {#if $user.isEmployee}
+                <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
+            {/if}
         </div>
     </div>
 {/if}

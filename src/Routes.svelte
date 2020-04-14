@@ -1,7 +1,8 @@
 <script>
-	import Router, { link, push } from 'svelte-spa-router';
+	import Router, { link, push, wrap } from 'svelte-spa-router';
 	import active from 'svelte-spa-router/active';
 
+	import Dashboard from './routes/Dashboard.svelte';
 	import Events from './routes/Events.svelte';
 	import Home from './routes/Home.svelte';
 	import Maintenance from './routes/Maintenance.svelte';
@@ -18,12 +19,17 @@
 
 	const prefix = '/dashboard';
 
+	const employeePrecondition = (detail) => {
+		return $user.isEmployee;
+	};
+
 	const routes = {
-		'/': Reports,
+		'/': Dashboard,
+		'/reports': wrap(Reports, employeePrecondition),
 		'/rides/:rideId': RideDetail,
 		'/rides': Rides,
-		'/maintenance/:maintenanceId': MaintenanceDetail,
-		'/maintenance': Maintenance,
+		'/maintenance/:maintenanceId': wrap(MaintenanceDetail, employeePrecondition),
+		'/maintenance': wrap(Maintenance, employeePrecondition),
 		'/events': Events,
 		'/tickets': Tickets,
 		'/scansim': ScanSim,
@@ -31,17 +37,21 @@
 		'/*': NotFound,
 	};
 
+	let mainItems = [
+		{route: '/dashboard', value: 'Home', requiresEmployee: false},
+	];
+
 	let pageItems = [
-		{route: '/dashboard', value: 'Reports'},
-		{route: '/dashboard/rides', value: 'Rides'},
-		{route: '/dashboard/maintenance', value: 'Maintenance'},
-		{route: '/dashboard/events', value: 'Events'},
-		{route: '/dashboard/tickets', value: 'Tickets'},
+		{route: '/dashboard/reports', value: 'Reports', requiresEmployee: true},
+		{route: '/dashboard/rides', value: 'Rides', requiresEmployee: false},
+		{route: '/dashboard/maintenance', value: 'Maintenance', requiresEmployee: true},
+		{route: '/dashboard/events', value: 'Events', requiresEmployee: false},
+		{route: '/dashboard/tickets', value: 'Tickets', requiresEmployee: false},
 	];
 
 	let otherItems = [
-		{route: '/dashboard/scansim', value: 'Scan simulation'},
-		{route: '/dashboard/profile', value: 'Profile'},
+		{route: '/dashboard/scansim', value: 'Scan simulation', requiresEmployee: false},
+		{route: '/dashboard/profile', value: 'Profile', requiresEmployee: false},
 	];
 
 	const handleLogOut = () => {
@@ -64,20 +74,30 @@
 		</div>
 
 		<aside class="menu">
-			<p class="menu-label">
-				Pages
-			</p>
+			<p class="menu-label">Main</p>
 			<ul class="menu-list">
-				{#each pageItems as item}
-					<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
+				{#each mainItems as item}
+					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
+					{/if}
 				{/each}
 			</ul>
-			<p class="menu-label">
-				Other
-			</p>
+
+			<p class="menu-label">Pages</p>
+			<ul class="menu-list">
+				{#each pageItems as item}
+					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
+					{/if}
+				{/each}
+			</ul>
+
+			<p class="menu-label">Other</p>
 			<ul class="menu-list">
 				{#each otherItems as item}
-					<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
+					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
+					{/if}
 				{/each}
 			</ul>
 		</aside>
