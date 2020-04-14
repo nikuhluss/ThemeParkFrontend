@@ -2,6 +2,7 @@
     import { replace } from 'svelte-spa-router';
     import { key, userId, user } from '../stores/auth.js';
     import { makeAxios, makeAxiosWithKey } from '../axios.js';
+    import Submit from '../components/Submit.svelte';
 
     let email = "customer0@email.com";
     let password = "password";
@@ -39,26 +40,21 @@
     <div class="container">
         <h1 class="title">Login</h1>
 
-        <div class="field">
-            <div class="control">
-                <input class="input" type="email" placeholder="user@email.com" bind:value={email} />
+        <form class="form">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="email" placeholder="user@email.com" bind:value={email} />
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <div class="control">
-                <input class="input" type="password" placeholder="Passowrd" bind:value={password} />
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="password" placeholder="Passowrd" bind:value={password} />
+                </div>
             </div>
-        </div>
 
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-link" on:click={handleSubmit}>Submit</button>
-            </div>
-            <div class="control">
-                <button class="button is-link is-light" on:click={handleCancel}>Cancel</button>
-            </div>
-        </div>
+            <Submit on:submit={handleSubmit} on:cancel={handleCancel} bulmaSubmitModifier='is-link' />
+        </form>
     </div>
 </section>
 
