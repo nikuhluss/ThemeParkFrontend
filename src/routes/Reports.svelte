@@ -71,13 +71,13 @@
         {
             name: "Revenue per-month",
             report: "revenue_maintenance_vs_tickets",
-            //hasDateRangeFilter: true,
+            hasDateRangeFilter: true,
             columns: [
                 { headerName: "Year", field: "year" },
-                { headerName: "Month", field: "month" },
+                // { headerName: "Month", field: "month" },
                 { headerName: "Month name", field: "month_name" },
-                { headerName: "Ticket Sales", field: "ticket_sales"},
-                { headerName: "Maintenance Costs", field: "maintenance_costs"},
+                { headerName: "Ticket sales", field: "ticket_sales"},
+                { headerName: "Maintenance costs", field: "maintenance_costs"},
                 { headerName: "Revenue", field: "revenue"},
             ]
         }
