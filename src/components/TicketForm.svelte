@@ -10,10 +10,6 @@
 <form class="form">
 
     <div class="field">
-        <label class="label">${purchase_price}</label>
-    </div>
-
-    <div class="field">
         <label class="label">Number of Adult Tickets</label>
         <div class="control">
             <label class="label">
