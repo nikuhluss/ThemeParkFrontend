@@ -117,6 +117,10 @@
         }
     };
 
+    const refreshReportData = async () => {
+        fetchReportData(currentReport, start_filter, end_filter);
+    };
+
     $: fetchReportData(currentReport, start_filter, end_filter);
 
     // csv export
@@ -139,6 +143,14 @@
                     <option value={report}>{report.name}</option>
                 {/each}
             </select>
+        </div>
+
+        <div class="level-item">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-small" on:click={refreshReportData}>Refresh</button>
+                </div>
+            </div>
         </div>
 
         {#if currentReport && currentReport.hasDateRangeFilter }
