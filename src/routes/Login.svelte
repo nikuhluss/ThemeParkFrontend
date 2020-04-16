@@ -1,17 +1,17 @@
 <script>
-  import { replace } from "svelte-spa-router";
-  import { key, userId, user } from "../stores/auth.js";
-  import { makeAxios, makeAxiosWithKey } from "../axios.js";
-  import Submit from "../components/Submit.svelte";
+  import { replace } from 'svelte-spa-router';
+  import { key, userId, user } from '../stores/auth.js';
+  import { makeAxios, makeAxiosWithKey } from '../axios.js';
+  import Submit from '../components/Submit.svelte';
 
-  let email = "customer0@email.com";
-  let password = "password";
+  let email = 'customer0@email.com';
+  let password = 'password';
 
   let axios = makeAxios();
 
   const handleSubmit = async () => {
     try {
-      let response = await axios.post("/login", { email, password });
+      let response = await axios.post('/login', { email, password });
       key.set(response.data.key);
       userId.set(response.data.userId);
 
@@ -19,16 +19,16 @@
       response = await authAxios.get(`/users/${response.data.userId}`);
       user.set(response.data);
 
-      replace("/dashboard");
+      replace('/dashboard');
     } catch (err) {
       console.log(err);
-      alert("Login failed");
+      alert('Login failed');
     }
   };
 
   const handleCancel = () => {
-    email = "";
-    password = "";
+    email = '';
+    password = '';
     key.reset();
   };
 </script>
@@ -43,6 +43,7 @@
     background-attachment: fixed;
     background-size: cover;
   }
+
   #login_box {
     width: 480px;
     padding: 10px;
@@ -50,9 +51,11 @@
     border-radius: 5px;
     background-color: whitesmoke;
   }
+
   c2 {
     color: #fcba03;
   }
+
   img {
     max-width: 100px;
     max-height: 100px;
@@ -68,8 +71,7 @@
       <div class="media-content">
         <h1 class="title is-2">
           <em>
-            Welcome to
-            <c2>Adventureland!</c2>
+            Welcome to <c2>Adventureland!</c2>
           </em>
         </h1>
       </div>

@@ -1,16 +1,16 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let payload = {};
   export let disabled = false;
-  export let bulmaSubmitModifier = "is-primary";
+  export let bulmaSubmitModifier = 'is-primary';
 
   const dispatch = createEventDispatcher();
   const handleSubmit = () => {
-    dispatch("submit", payload);
+    dispatch('submit', payload);
   };
   const handleCancel = () => {
-    dispatch("cancel");
+    dispatch('cancel');
   };
 </script>
 
