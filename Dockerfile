@@ -1,4 +1,6 @@
 FROM node:alpine
+ARG BACKEND_HOST
+ARG PREST_HOST
 WORKDIR /app
 COPY ./ /app
 RUN npm install
