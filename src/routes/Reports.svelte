@@ -95,7 +95,8 @@
             return;
         }
 
-        const axios = makeAxiosWithKey($key, 'http://localhost:5050');
+        const reportsUrl = 'http://' + process.env.PREST_HOST;
+        const axios = makeAxiosWithKey($key, reportsUrl);
 
         let url = `/_QUERIES/reports/${report.report}`;
         let queryParams = [];

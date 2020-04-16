@@ -24,8 +24,13 @@
             replace('/dashboard');
 
         } catch (err) {
-            console.log(err);
-            alert("Login failed");
+            if (err.response && err.response.status == 401) {
+                alert("Invalid username or password");
+            } else if (err.response) {
+                alert("Unknown server error, please contact administrator");
+            } else {
+                alert("Could not connect to server");
+            }
         }
     };
 
