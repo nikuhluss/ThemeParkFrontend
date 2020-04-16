@@ -5,5 +5,5 @@ WORKDIR /app
 COPY ./ /app
 RUN npm install
 RUN npm run build
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
 
