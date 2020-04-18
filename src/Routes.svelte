@@ -56,10 +56,9 @@
 
 	const handleLogOut = () => {
 		key.reset();
+		user.reset();
 		push('/login');
 	};
-
-	console.log(">", $user);
 </script>
 
 <div class="columns">
@@ -77,7 +76,7 @@
 			<p class="menu-label">Main</p>
 			<ul class="menu-list">
 				{#each mainItems as item}
-					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+					{#if !item.requiresEmployee || item.requiresEmployee && $user && $user.isEmployee}
 						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
 					{/if}
 				{/each}
@@ -86,7 +85,7 @@
 			<p class="menu-label">Pages</p>
 			<ul class="menu-list">
 				{#each pageItems as item}
-					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+					{#if !item.requiresEmployee || item.requiresEmployee && $user && $user.isEmployee}
 						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
 					{/if}
 				{/each}
@@ -95,7 +94,7 @@
 			<p class="menu-label">Other</p>
 			<ul class="menu-list">
 				{#each otherItems as item}
-					{#if !item.requiresEmployee || item.requiresEmployee && $user.isEmployee}
+					{#if !item.requiresEmployee || item.requiresEmployee && $user && $user.isEmployee}
 						<a href="{item.route}" use:link use:active={{className: 'is-active'}}>{item.value}</a>
 					{/if}
 				{/each}

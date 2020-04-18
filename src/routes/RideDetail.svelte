@@ -176,11 +176,11 @@
 
         <div class="column is-two-thirds">
             <h2 class="title">Actions</h2>
-            {#if $user.isEmployee}
+            {#if $user && $user.isEmployee}
                 <button class="button is-small" on:click={handleEdit}>Edit ride</button>
             {/if}
             <button class="button is-small" on:click={handleCreateReview}>Write new review</button>
-            {#if $user.isEmployee}
+            {#if $user && $user.isEmployee}
                 <button class="button is-small" on:click={handleCreateMaintenance}>Create new maintenance</button>
             {/if}
         </div>

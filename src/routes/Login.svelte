@@ -1,11 +1,23 @@
 <script>
-  import { replace } from 'svelte-spa-router';
+  import { replace, querystring } from 'svelte-spa-router';
+  import qs from 'qs';
   import { key, userId, user } from '../stores/auth.js';
   import { makeAxios, makeAxiosWithKey } from '../axios.js';
   import Submit from '../components/Submit.svelte';
 
-  let email = 'customer0@email.com';
-  let password = 'password';
+  let email = '';
+  let password = '';
+
+  $: if ($querystring) {
+    try {
+      const queryobj = qs.parse($querystring);
+      if (queryobj.email) {
+        email = queryobj.email;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   let axios = makeAxios();
 
@@ -13,7 +25,6 @@
     try {
       let response = await axios.post('/login', { email, password });
       key.set(response.data.key);
-      userId.set(response.data.userId);
 
       let authAxios = makeAxiosWithKey(response.data.key);
       response = await authAxios.get(`/users/${response.data.userId}`);

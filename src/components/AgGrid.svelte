@@ -15,7 +15,7 @@
 
         gridOptions = {
             defaultColDef: { resizable: true },
-            columnsDef: [],
+            columnDefs: [],
             rowData: [],
         };
 

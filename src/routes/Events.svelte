@@ -56,7 +56,7 @@
     </Modal>
 {/if}
 
-{#if $user.isEmployee}
+{#if $user && $user.isEmployee}
     <div class="level">
         <div class="level-left">
             <div class="level-item">

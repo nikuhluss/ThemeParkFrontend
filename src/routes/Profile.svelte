@@ -43,7 +43,7 @@
 
     <h1 class="title">Profile</h1>
 
-    {#if !user}
+    {#if !$user}
         <p>Not logged in.</p>
     {:else}
 

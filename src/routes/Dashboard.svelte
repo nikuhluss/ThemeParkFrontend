@@ -1,8 +1,8 @@
 <script>
     import { user } from '../stores/auth.js';
 
-    $: tagClass = $user.isEmployee ? 'tag is-success' : 'tag is-info';
-    $: tagText = $user.isEmployee ? 'Employee' : 'Customer';
+    $: tagClass = $user && $user.isEmployee ? 'tag is-success' : 'tag is-info';
+    $: tagText = $user && $user.isEmployee ? 'Employee' : 'Customer';
 </script>
 
 <h1 class="title">Dashboard</h1>
