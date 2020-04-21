@@ -114,7 +114,7 @@
           <input
             class="input"
             type="password"
-            placeholder="Passowrd"
+            placeholder="Password"
             bind:value={password} />
         </div>
       </div>
