@@ -103,8 +103,29 @@
         const axios = makeAxiosWithKey($key);
         try {
             const response = await axios.post('/reviews', newReview);
-            reviews = [newReview, ...reviews];
+            reviews = [response.data, ...reviews];
             creatingReview = false;
+        } catch (err) {
+
+        }
+    };
+
+    // review deletion hndlers
+
+    const handleDeleteReview = async (idx) => {
+        const review = reviews[idx];
+        if (!review) {
+            return;
+        }
+
+        if (!confirm('Are you sure you want to delete this review?')) {
+            return;
+        }
+
+        const axios = makeAxiosWithKey($key);
+        try {
+            const response = await axios.delete(`/reviews/${review.id}`);
+            reviews = [...reviews.slice(0, idx), ...reviews.slice(idx + 1)];
         } catch (err) {
 
         }
@@ -156,7 +177,7 @@
             <h2 class="title">Reviews</h2>
             <p class="subtitle"><strong>Average rating:</strong> {ride.reviewsAverage}</p>
             <div class="columns is-multiline">
-                {#each reviews as review}
+                {#each reviews as review, idx}
                     <div class="column is-full">
                         <Card nobutton>
                             <span slot="title">{review.title}</span>
@@ -165,8 +186,14 @@
                                     <strong>Rating: </strong><span>{review.rating}</span>
                                     <br />
                                     <strong>Posted on: </strong><time datetime={review.postedOn}>{dayjs(review.postedOn).format('MM/DD/YYYY h:mm A')}</time>
+                                    <br />
                                 </p>
                                 <p>{review.content}</p>
+                                {#if $user && $user.isEmployee}
+                                    <p>
+                                        <button class="button is-danger is-small is-outlined" on:click={() => handleDeleteReview(idx)}>Delete</button>
+                                    </p>
+                                {/if}
                             </div>
                         </Card>
                     </div>
