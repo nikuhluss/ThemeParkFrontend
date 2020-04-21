@@ -1,5 +1,6 @@
 <script>
 	import Router, { wrap, push } from 'svelte-spa-router';
+	import Notifications from 'svelte-notifications';
 	import { key } from './stores/auth.js';
 
 	import Home from './routes/Home.svelte';
@@ -42,7 +43,9 @@
 
 </script>
 
-<Router routes={routes} on:conditionsFailed={conditionsFailed} />
+<Notifications>
+	<Router routes={routes} on:conditionsFailed={conditionsFailed} />
+</Notifications>
 
 <style>
 	:global(html) {
