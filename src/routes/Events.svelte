@@ -9,6 +9,9 @@
     import { key, user } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
+    import { getNotificationsContext } from 'svelte-notifications';
+    const { addNotification } = getNotificationsContext();
+
     let events = [];
     let addingEvent = false;
 
@@ -18,7 +21,8 @@
             const response = await axios.get('/events');
             events = response.data;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     });
 
@@ -34,6 +38,8 @@
             events = [response.data, ...events];
             addingEvent = false;
         } catch (err) {
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 

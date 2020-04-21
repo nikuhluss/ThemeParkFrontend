@@ -9,6 +9,9 @@
     import { key, userId } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
+    import { getNotificationsContext } from 'svelte-notifications';
+    const { addNotification } = getNotificationsContext();
+
     let tickets = [];
     let visibleTickets = [];
     let todayTicket = true;
@@ -28,6 +31,7 @@
             tickets = response.data;
         } catch (err) {
             console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     });
 
@@ -49,6 +53,8 @@
             const data = responses.map(r => r.data);
             tickets = [...data, ...tickets];
         } catch (err) {
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
 
         buyingTicket = false;

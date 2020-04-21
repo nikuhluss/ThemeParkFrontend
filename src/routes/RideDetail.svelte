@@ -12,6 +12,9 @@
     import ReviewForm from '../components/ReviewForm.svelte';
     export let params;
 
+    import { getNotificationsContext } from 'svelte-notifications';
+    const { addNotification } = getNotificationsContext();
+
     let ride = null;
     let reviews = [];
     $: avgReviews = reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null;
@@ -22,7 +25,8 @@
             const response = await axios.get(`/rides/${params.rideId}`);
             ride = response.data;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     });
 
@@ -32,7 +36,8 @@
             const response  = await axios.get(`/rides/${params.rideId}/reviews`);
             reviews = response.data;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     });
 
@@ -57,7 +62,8 @@
             ride = response.data;
             editing = false;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 
@@ -81,7 +87,8 @@
             const response = await axios.post('/maintenance', newMaintenance);
             push(`/dashboard/maintenance/${response.data.id}`);
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 
@@ -107,7 +114,8 @@
             reviews = [response.data, ...reviews];
             creatingReview = false;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 
@@ -128,7 +136,8 @@
             const response = await axios.delete(`/reviews/${review.id}`);
             reviews = [...reviews.slice(0, idx), ...reviews.slice(idx + 1)];
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 

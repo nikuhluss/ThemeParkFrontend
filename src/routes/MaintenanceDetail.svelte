@@ -8,6 +8,9 @@
     import Modal from '../components/Modal.svelte';
     import MaintenanceForm from '../components/MaintenanceForm.svelte';
 
+    import { getNotificationsContext } from 'svelte-notifications';
+    const { addNotification } = getNotificationsContext();
+
     export let params;
 
     let maintenance = null;
@@ -19,7 +22,8 @@
             const response = await axios.get(`/maintenance/${params.maintenanceId}`);
             maintenance = response.data;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     });
 
@@ -44,7 +48,8 @@
             maintenance = response.data;
             editing = false;
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 
@@ -61,7 +66,8 @@
             const response = await axios.post(`/maintenance/${params.maintenanceId}/close`);
             maintenance = response.data
         } catch (err) {
-
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 

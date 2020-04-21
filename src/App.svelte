@@ -3,6 +3,7 @@
 	import Notifications from 'svelte-notifications';
 	import { key } from './stores/auth.js';
 
+	import CustomNotification from './components/CustomNotification.svelte';
 	import Home from './routes/Home.svelte';
 	import NotFound from './routes/NotFound.svelte';
 	import Login from './routes/Login.svelte';
@@ -43,12 +44,18 @@
 
 </script>
 
-<Notifications>
+<Notifications item={CustomNotification}>
 	<Router routes={routes} on:conditionsFailed={conditionsFailed} />
 </Notifications>
 
 <style>
 	:global(html) {
 		overflow: hidden;
+	}
+
+	:global(.notifications) {
+		/* fix z-index to appear on top of modals */
+		position: relative;
+		z-index: 40;
 	}
 </style>

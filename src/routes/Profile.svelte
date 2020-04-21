@@ -1,10 +1,12 @@
 <script>
-
     import { key, userId, user } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
 
     import Modal from '../components/Modal.svelte';
     import ProfileForm from '../components/ProfileForm.svelte';
+
+    import { getNotificationsContext } from 'svelte-notifications';
+    const { addNotification } = getNotificationsContext();
 
     let editing = false;
 
@@ -29,6 +31,8 @@
             user.set(response.data);
             editing = false;
         } catch (err) {
+            console.error(err);
+            addNotification({type: 'danger', position: 'bottom-right', removeAfter: 4000, text: err.response.data.error});
         }
     };
 
