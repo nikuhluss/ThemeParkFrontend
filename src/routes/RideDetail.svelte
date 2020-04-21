@@ -14,6 +14,7 @@
 
     let ride = null;
     let reviews = [];
+    $: avgReviews = reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null;
 
     onMount(async () => {
         const axios = makeAxiosWithKey($key);
@@ -175,7 +176,7 @@
     <div class="columns is-multiline">
         <div class="column is-one-third">
             <h2 class="title">Reviews</h2>
-            <p class="subtitle"><strong>Average rating:</strong> {ride.reviewsAverage}</p>
+            <p class="subtitle"><strong>Average rating:</strong> {avgReviews ? Math.floor(avgReviews) : 'no reviews'}</p>
             <div class="columns is-multiline">
                 {#each reviews as review, idx}
                     <div class="column is-full">
