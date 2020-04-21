@@ -1,5 +1,7 @@
 <script>
     import { onMount } from 'svelte';
+    import { location, replace, querystring } from 'svelte-spa-router';
+    import qs from 'qs';
     import { key } from '../stores/auth.js';
     import { makeAxiosWithKey } from '../axios.js';
     import AgGrid from '../components/AgGrid.svelte';
@@ -85,7 +87,10 @@
 
     // report fetching
 
-    let currentReport = availableReports[0];
+    $: queryobj = qs.parse($querystring);
+    $: queryreport = queryobj && queryobj.report || null;
+    $: currentReport = queryreport && availableReports.find(r => r.report === queryreport) || availableReports[0];
+
     let currentReportData = [];
     let start_filter = '';
     let end_filter = '';
@@ -118,11 +123,21 @@
         }
     };
 
+    $: fetchReportData(currentReport, start_filter, end_filter);
+
+    // report selection and query string update
+
+    $: selectedReport = queryreport && availableReports.find(r => r.report === queryreport) || availableReports[0];
+
+    const handleReportChange = () => {
+        replace($location + '?' + qs.stringify({report: selectedReport.report}));
+    };
+
+    // report refresh
+
     const refreshReportData = async () => {
         fetchReportData(currentReport, start_filter, end_filter);
     };
-
-    $: fetchReportData(currentReport, start_filter, end_filter);
 
     // csv export
 
@@ -139,7 +154,7 @@
 <div class="level">
     <div class="level-left">
         <div class="level-item">
-            <select class="select" bind:value={currentReport}>
+            <select class="select" bind:value={selectedReport} on:change={handleReportChange}>
                 {#each availableReports as report}
                     <option value={report}>{report.name}</option>
                 {/each}
