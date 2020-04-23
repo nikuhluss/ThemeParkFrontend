@@ -7,7 +7,7 @@
     export let description = '';
 </script>
 
-<form class="form">
+<form class="form" on:submit|preventDefault={() => {}}>
     <div class="field">
         <label class="label">Name</label>
         <div class="control">

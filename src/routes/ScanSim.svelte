@@ -113,8 +113,7 @@
 
 <div class="columns">
     <div class="column is-one-third">
-        <form class="form">
-
+        <form class="form" on:submit|preventDefault={() => {}}>
             <div class="field">
                 <div class="control">
                     <button class="button" on:click={reset}>Clear form</button>

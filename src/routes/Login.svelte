@@ -98,7 +98,7 @@
 
     <h2 class="title is-3">Login</h2>
 
-    <form class="form">
+    <form class="form" on:submit|preventDefault={() => {}}>
       <div class="field">
         <div class="control">
           <input

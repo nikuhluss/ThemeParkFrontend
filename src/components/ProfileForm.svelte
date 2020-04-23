@@ -15,7 +15,7 @@
     export let phone = null;
 </script>
 
-<form class="form">
+<form class="form" on:submit|preventDefault={() => {}}>
     <div class="field">
         <label class="label">First name</label>
         <div class="control">

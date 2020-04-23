@@ -7,7 +7,7 @@
 </script>
 
 
-<form class="form">
+<form class="form" on:submit|preventDefault={() => {}}>
 
     <div class="field">
         <label class="label">Number of Adult Tickets</label>

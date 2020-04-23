@@ -6,7 +6,7 @@
     export let content = '';
 </script>
 
-<form class="form">
+<form class="form" on:submit|preventDefault={() => {}}>
     <div class="field">
         <label class="label">Rating</label>
         <div class="control">
