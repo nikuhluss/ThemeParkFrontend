@@ -19,7 +19,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "dayjs": "^1.8.23",
-    "qs": "^6.9.3",
+    "qs": "^6.9.7",
     "sirv-cli": "^0.4.4",
     "svelte-notifications": "^0.9.9",
     "svelte-spa-router": "^2.1.0"
